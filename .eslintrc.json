@@ -30,6 +30,7 @@
     "jsx-a11y/no-redundant-roles": ["off"],
     "react/prop-types": ["off"],
     "react/require-default-props": ["off"],
-    "react/jsx-no-bind": ["off"]
+    "react/jsx-no-bind": ["off"],
+    "react/no-unused-prop-types": ["off"]
   }
 }
