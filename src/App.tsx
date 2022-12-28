@@ -1,3 +1,10 @@
+import { CssBaseline } from "@mui/material";
+
 export default function App() {
-  return <h1>Hello, World!</h1>;
+  return (
+    <>
+      <CssBaseline />
+      <h1>Hello, World!</h1>
+    </>
+  );
 }
