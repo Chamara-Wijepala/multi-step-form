@@ -9,8 +9,18 @@ import bgSmall from "./assets/images/bg-sm.jpg";
 import bgMedium from "./assets/images/bg-md.jpg";
 import bgLarge from "./assets/images/bg-lg.jpg";
 
+import { FormState } from "./types";
+
 export default function App() {
   const [step, setStep] = useState(0);
+  const [formState, setFormState] = useState<FormState>({
+    firstName: "",
+    lastName: "",
+    gender: "female",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  });
 
   function nextStep() {
     setStep(step + 1);
@@ -18,6 +28,17 @@ export default function App() {
 
   function previousStep() {
     setStep(step - 1);
+  }
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    setFormState((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      };
+    });
   }
 
   return (
@@ -55,15 +76,27 @@ export default function App() {
             }}
           >
             <form noValidate autoComplete="off">
-              {step === 0 && <UserDetails nextStep={nextStep} />}
+              {step === 0 && (
+                <UserDetails
+                  nextStep={nextStep}
+                  formState={formState}
+                  handleChange={handleChange}
+                />
+              )}
               {step === 1 && (
                 <AccountDetails
                   nextStep={nextStep}
                   previousStep={previousStep}
+                  formState={formState}
+                  handleChange={handleChange}
                 />
               )}
               {step === 2 && (
-                <Overview nextStep={nextStep} previousStep={previousStep} />
+                <Overview
+                  nextStep={nextStep}
+                  previousStep={previousStep}
+                  formState={formState}
+                />
               )}
               {step === 3 && <Success />}
             </form>
