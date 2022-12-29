@@ -16,7 +16,7 @@ export default function App() {
   const [formState, setFormState] = useState<FormState>({
     firstName: "",
     lastName: "",
-    gender: "female",
+    gender: "",
     email: "",
     password: "",
     passwordConfirmation: "",

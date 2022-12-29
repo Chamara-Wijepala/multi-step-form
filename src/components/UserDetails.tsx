@@ -1,4 +1,13 @@
-import { Box, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+  Button,
+} from "@mui/material";
 import { TextInput } from "./FormInputs";
 
 import { FirstStep } from "../types";
@@ -29,7 +38,7 @@ export default function UserDetails({
         </Typography>
       </Box>
 
-      <Box>
+      <Box display="grid" gap="1.5rem">
         <TextInput
           required
           label="First Name"
@@ -37,6 +46,7 @@ export default function UserDetails({
           defaultValue={formState.firstName}
           onChange={(e) => handleChange(e)}
         />
+
         <TextInput
           required
           label="Last Name"
@@ -44,6 +54,24 @@ export default function UserDetails({
           defaultValue={formState.lastName}
           onChange={(e) => handleChange(e)}
         />
+
+        <FormControl>
+          <FormLabel id="gender-selection">Gender (Optional)</FormLabel>
+          <RadioGroup
+            aria-labelledby="gender-selection"
+            value={formState.gender}
+            name="gender"
+            onChange={(e) => handleChange(e)}
+          >
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="other" control={<Radio />} label="Other" />
+          </RadioGroup>
+        </FormControl>
       </Box>
 
       <Box display="flex" justifyContent="flex-end">

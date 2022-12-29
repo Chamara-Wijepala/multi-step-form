@@ -31,24 +31,30 @@ export default function Overview({
             </Box>{" "}
             {formState.firstName}
           </Typography>
+
           <Typography paragraph>
             <Box component="span" fontWeight={600}>
               Last Name:
             </Box>{" "}
             {formState.lastName}
           </Typography>
-          <Typography paragraph>
-            <Box component="span" fontWeight={600}>
-              Gender:
-            </Box>{" "}
-            {formState.gender}
-          </Typography>
+
+          {formState.gender !== "" && (
+            <Typography paragraph>
+              <Box component="span" fontWeight={600}>
+                Gender:
+              </Box>{" "}
+              {formState.gender}
+            </Typography>
+          )}
+
           <Typography paragraph>
             <Box component="span" fontWeight={600}>
               Email:
             </Box>{" "}
             {formState.email}
           </Typography>
+
           <Box display="flex" alignItems="center" gap="1.5rem">
             <Typography paragraph marginBottom={0}>
               <Box component="span" fontWeight={600}>
