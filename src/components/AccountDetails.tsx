@@ -19,6 +19,22 @@ export default function AccountDetails({
     nextStep();
   }
 
+  function validateEmail(email: string) {
+    const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    return !!email.match(pattern);
+  }
+
+  function validatePassword(password: string) {
+    const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+
+    return !!password.match(pattern);
+  }
+
+  function validatePasswordConfirmation(password: string) {
+    return password === formState.password;
+  }
+
   return (
     <Box display="grid" gap="1.5rem">
       <Box>
@@ -37,18 +53,25 @@ export default function AccountDetails({
           name="email"
           defaultValue={formState.email}
           onChange={(e) => handleChange(e)}
+          validate={validateEmail}
+          helperText="Please enter a valid email address."
         />
         <PasswordInput
           label="Password"
           name="password"
           defaultValue={formState.password}
           onChange={(e) => handleChange(e)}
+          validate={validatePassword}
+          helperText="Must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number. Special characters are optional."
+          showHelperText
         />
         <PasswordInput
           label="Confirm Password"
           name="password"
           defaultValue={formState.passwordConfirmation}
           onChange={(e) => handleChange(e)}
+          validate={validatePasswordConfirmation}
+          helperText="Passwords don't match."
         />
       </Box>
 

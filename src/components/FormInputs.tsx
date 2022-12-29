@@ -4,6 +4,7 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
+  FormHelperText,
   IconButton,
   InputAdornment,
 } from "@mui/material";
@@ -17,16 +18,43 @@ interface InputProps {
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  validate: (value: string) => boolean;
+  helperText: string;
+  showHelperText?: boolean;
 }
 
-export function TextInput({ onChange, ...props }: InputProps) {
+export function TextInput({
+  onChange,
+  validate,
+  helperText,
+  ...props
+}: InputProps) {
+  const [showError, setShowError] = useState(false);
+
+  // if the input is valid while typing, remove error
   function handleChange(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
     onChange(e);
+    if (validate(e.target.value)) setShowError(false);
   }
 
-  return <TextField {...props} onChange={handleChange} />;
+  // show error if the input value is invalid when user focuses out of input
+  function handleBlur(
+    e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement, Element>
+  ) {
+    if (!validate(e.target.value)) setShowError(true);
+  }
+
+  return (
+    <TextField
+      {...props}
+      error={showError}
+      helperText={showError && helperText}
+      onChange={handleChange}
+      onBlur={handleBlur}
+    />
+  );
 }
 
 export function PasswordInput({
@@ -34,25 +62,40 @@ export function PasswordInput({
   name,
   defaultValue,
   onChange,
+  validate,
+  helperText,
+  showHelperText,
 }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [showError, setShowError] = useState(false);
 
+  // if the input is valid while typing, remove error
   function handleChange(
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
     onChange(e);
+    if (validate(e.target.value)) setShowError(false);
+  }
+
+  // show error if the input value is invalid when user focuses out of input
+  function handleBlur(
+    e: React.FocusEvent<HTMLTextAreaElement | HTMLInputElement, Element>
+  ) {
+    if (!validate(e.target.value)) setShowError(true);
   }
 
   return (
-    <FormControl required>
+    <FormControl required error={showError}>
       <InputLabel htmlFor={`${name}-input`}>{label}</InputLabel>
       <OutlinedInput
+        aria-describedby={`${name}-helper-text`}
         id={`${name}-input`}
         type={showPassword ? "text" : "password"}
         label={label}
         name={name}
         defaultValue={defaultValue}
         onChange={handleChange}
+        onBlur={handleBlur}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -65,6 +108,9 @@ export function PasswordInput({
           </InputAdornment>
         }
       />
+      {(showHelperText || showError) && (
+        <FormHelperText id={`${name}-helper-text`}>{helperText}</FormHelperText>
+      )}
     </FormControl>
   );
 }

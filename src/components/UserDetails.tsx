@@ -27,6 +27,10 @@ export default function UserDetails({
     nextStep();
   }
 
+  function validateName(name: string) {
+    return name !== "";
+  }
+
   return (
     <Box display="grid" gap="1.5rem">
       <Box>
@@ -45,6 +49,8 @@ export default function UserDetails({
           name="firstName"
           defaultValue={formState.firstName}
           onChange={(e) => handleChange(e)}
+          validate={validateName}
+          helperText="Please enter your first name."
         />
 
         <TextInput
@@ -53,6 +59,8 @@ export default function UserDetails({
           name="lastName"
           defaultValue={formState.lastName}
           onChange={(e) => handleChange(e)}
+          validate={validateName}
+          helperText="Please enter your last name."
         />
 
         <FormControl>
