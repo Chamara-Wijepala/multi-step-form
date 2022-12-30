@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -23,13 +24,19 @@ export default function UserDetails({
   formState,
   handleChange,
 }: Props) {
-  function stepForward() {
-    nextStep();
-  }
+  const [allInputsValid, setAllInputsValid] = useState(false);
 
   function validateName(name: string) {
     return name !== "";
   }
+
+  useEffect(() => {
+    if (
+      validateName(formState.firstName) === true &&
+      validateName(formState.lastName) === true
+    )
+      setAllInputsValid(true);
+  }, [formState]);
 
   return (
     <Box display="grid" gap="1.5rem">
@@ -83,7 +90,12 @@ export default function UserDetails({
       </Box>
 
       <Box display="flex" justifyContent="flex-end">
-        <Button size="small" variant="contained" onClick={stepForward}>
+        <Button
+          size="small"
+          variant="contained"
+          disabled={!allInputsValid}
+          onClick={nextStep}
+        >
           Next Step
         </Button>
       </Box>

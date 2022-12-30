@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { TextInput, PasswordInput } from "./FormInputs";
 
@@ -15,9 +16,7 @@ export default function AccountDetails({
   formState,
   handleChange,
 }: Props) {
-  function stepForward() {
-    nextStep();
-  }
+  const [allInputsValid, setAllInputsValid] = useState(false);
 
   function validateEmail(email: string) {
     const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
@@ -34,6 +33,15 @@ export default function AccountDetails({
   function validatePasswordConfirmation(password: string) {
     return password === formState.password;
   }
+
+  useEffect(() => {
+    if (
+      validateEmail(formState.email) === true &&
+      validatePassword(formState.password) === true &&
+      validatePasswordConfirmation(formState.passwordConfirmation) === true
+    )
+      setAllInputsValid(true);
+  }, [formState]);
 
   return (
     <Box display="grid" gap="1.5rem">
@@ -80,7 +88,12 @@ export default function AccountDetails({
           Go Back
         </Button>
 
-        <Button size="small" variant="contained" onClick={stepForward}>
+        <Button
+          size="small"
+          variant="contained"
+          disabled={!allInputsValid}
+          onClick={nextStep}
+        >
           Next Step
         </Button>
       </Box>
