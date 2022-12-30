@@ -67,7 +67,7 @@ export default function AccountDetails({
         />
         <PasswordInput
           label="Confirm Password"
-          name="password"
+          name="passwordConfirmation"
           defaultValue={formState.passwordConfirmation}
           onChange={(e) => handleChange(e)}
           validate={validatePasswordConfirmation}
