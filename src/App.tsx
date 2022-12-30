@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { CssBaseline, Box, Container, Paper } from "@mui/material";
+import {
+  CssBaseline,
+  Box,
+  Container,
+  Paper,
+  Stepper,
+  Step,
+  StepLabel,
+} from "@mui/material";
 import UserDetails from "./components/UserDetails";
 import AccountDetails from "./components/AccountDetails";
 import Overview from "./components/Overview";
@@ -10,6 +18,8 @@ import bgMedium from "./assets/images/bg-md.jpg";
 import bgLarge from "./assets/images/bg-lg.jpg";
 
 import { FormState } from "./types";
+
+const steps = ["User Info", "Account Details", "Confirmation"];
 
 export default function App() {
   const [step, setStep] = useState(0);
@@ -75,6 +85,18 @@ export default function App() {
               },
             }}
           >
+            <Stepper
+              activeStep={step}
+              alternativeLabel
+              sx={{ marginBottom: "1.5rem" }}
+            >
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel />
+                </Step>
+              ))}
+            </Stepper>
+
             <form noValidate autoComplete="off">
               {step === 0 && (
                 <UserDetails
